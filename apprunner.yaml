@@ -3,9 +3,12 @@ runtime: python3
 build:
   commands:
     build:
-    - yum install -y pycairo
-    - pip install -r requirements.txt
+      - yum install -y gcc libffi-devel pycairo
+      - pip install pipenv
+      - pipenv install -r requirements.txt
+    post-build:
+      - yum remove -y gcc
 run:
-  command: python app.py
+  command: pipenv run python app.py
   network:
     port: 8000

@@ -59,7 +59,8 @@ There also might be an easter egg or two if you read the code. ;)
 To run this application locally you can use `pipenv`
 
 ```
-pipenv install
+pipenv install -r requirements.txt
+pipenv lock --keep-outdated
 pipenv run python app.py
 ```
 
