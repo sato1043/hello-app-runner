@@ -18,6 +18,7 @@ RUN yum update -y \
            python38 \
            libffi-devel \
     && python3.8 -m pip install pip --upgrade \
+    && pip3 install pipenv \
     && ln -s /usr/local/bin/pip3 /usr/bin/pip3 \
     && ln -s /usr/bin/pydoc3.8 /usr/local/bin/pydoc \
     && ln -s /usr/bin/python3.8 /usr/local/bin/python \
@@ -25,6 +26,6 @@ RUN yum update -y \
     && yum -y clean all --enablerepo='*' \
     && rm -rf /var/cache/yum
 
-RUN pip3 install -r requirements.txt
+RUN pipenv install
 
-CMD ["python", "./app.py"]
+CMD ["pipenv", "run", "python", "./app.py"]

@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo $AWS_REGION / $AWS_ACCOUNT_ID / $REPOS_NAME
+      - $(aws ecr get-login --region ${AWS_REGION} --no-include-email)
+      - REPOS_URI=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPOS_NAME}
+      - IMAGE_TAG=$(echo $CODEBUILD_SOURCE_VERSION)
+  build:
+    commands:
+      - echo $REPOS_URI / $IMAGE_TAG
+      - docker build -t $REPOS_URI .
+      - docker tag $REPOS_URI:latest $REPOS_URI:$IMAGE_TAG
+      - docker push $REPOS_URI:$IMAGE_TAG
